@@ -1,0 +1,62 @@
+{
+  "privacy": {
+    "id": "privacy",
+    "name": "Privacy",
+    "blurb": "The cypherpunk's claim. Where the protocol learns to hold its tongue.",
+    "seedZones": ["Mixers", "FHE & MPC", "TLSNotary & zkEmail", "Shielded State", "Anonymity Sets", "Cypherpunk Lessons"]
+  },
+  "identity": {
+    "id": "identity",
+    "name": "Identity",
+    "blurb": "Names, attestations, sybil-resistance. Who is this Tarnished, and what can they prove?",
+    "seedZones": ["Names & ENS", "Verifiable Credentials", "Proof of Personhood", "Attestations", "Soulbound", "Reputation"]
+  },
+  "markets": {
+    "id": "markets",
+    "name": "Markets",
+    "blurb": "Where value changes hands. AMMs, lending, oracles, the moving river of price.",
+    "seedZones": ["AMMs & DEXes", "Lending & Stablecoins", "MEV & Searchers", "Intents & Solvers", "Oracles", "Derivatives"]
+  },
+  "scaling": {
+    "id": "scaling",
+    "name": "Scaling",
+    "blurb": "Climbing spires. Rollups, data, sequencers — every meter of vertical the protocol gains.",
+    "seedZones": ["Rollups", "Data Availability", "Sequencers & Preconfs", "Bridges", "Appchains", "Statelessness", "Storage Systems"]
+  },
+  "consensus": {
+    "id": "consensus",
+    "name": "Consensus",
+    "blurb": "The protocol's pulse. Validators, finality, the slow heartbeat.",
+    "seedZones": ["Beacon Chain", "Validators & Staking", "Restaking", "Finality", "Casper Lineage", "Issuance"]
+  },
+  "cryptography": {
+    "id": "cryptography",
+    "name": "Cryptography",
+    "blurb": "Proofs and primitives. The mathematics underwriting every claim.",
+    "seedZones": ["Proof Systems", "Polynomial Commitments", "ZK Circuits", "Threshold & BLS", "Hash Functions", "Applied Crypto"]
+  },
+  "builders-craft": {
+    "id": "builders-craft",
+    "name": "Builders' Craft",
+    "blurb": "The smith's tools. Solidity, EVM, audits, fuzzers, every trick a Tarnished learns at the forge.",
+    "seedZones": ["Solidity & Vyper", "EVM Internals", "Foundry & Tooling", "Audits & Security", "Formal Verification", "Gas Optimization"]
+  },
+  "governance": {
+    "id": "governance",
+    "name": "Governance",
+    "blurb": "The assembly's labor. DAOs, public goods, voting — the Tarnished collectively.",
+    "seedZones": ["DAOs", "Voting Systems", "Public Goods", "Funding Mechanisms", "Coordination", "Treasuries"]
+  },
+  "ai-agents": {
+    "id": "ai-agents",
+    "name": "AI & Agents",
+    "blurb": "New tongues in the protocol. Onchain LLMs, agent frameworks, TEEs.",
+    "seedZones": ["Onchain Inference", "Agent Frameworks", "TEEs & Verifiable Compute", "AI Oracles", "AI x DeFi", "Crypto x ML"]
+  },
+  "real-world": {
+    "id": "real-world",
+    "name": "The Real World",
+    "blurb": "Where the protocol meets the kingdom. RWAs, regulation, the social mass.",
+    "seedZones": ["RWAs", "Regulation & Compliance", "Institutional Adoption", "Climate & Impact", "Social & Cultural", "Onboarding"]
+  }
+}

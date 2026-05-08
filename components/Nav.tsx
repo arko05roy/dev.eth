@@ -7,6 +7,7 @@ interface Route { href: string; label: string; }
 
 const ROUTES: Route[] = [
   { href: "/path",         label: "PATH"        },
+  { href: "/protocols",    label: "PROTOCOLS"   },
   { href: "/begin",        label: "BEGIN"       },
   { href: "/character",    label: "CHARACTER"   },
   { href: "/quests",       label: "QUESTS"      },

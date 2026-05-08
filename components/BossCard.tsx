@@ -71,67 +71,81 @@ export default function BossCard({ talk, watched, onToggle }: Props) {
         />
 
         <div className="relative px-6 sm:px-10 py-10">
-          {/* HEADER — boss number + act + watched toggle */}
-          <header className="flex items-baseline justify-between mb-6">
-            <p className="font-mono text-[10px] tracking-[0.2em] text-ember">
-              ✦ BOSS {position > 0 ? ROMAN[position] : ""} {total > 0 ? `OF ${ROMAN[total]}` : ""} · ACT {talk.act}
+          {/* HEADER — single row: boss locator on left, watched toggle on right.
+              The toggle sits visually distinct (border) so it doesn't read as a sibling label. */}
+          <header className="flex items-center justify-between mb-8 gap-4">
+            <p className="font-mono text-[10px] tracking-[0.22em] text-ember">
+              BOSS {position > 0 ? ROMAN[position] : ""}{total > 0 ? ` / ${ROMAN[total]}` : ""} <span className="text-parch-ghost">·</span> ACT {talk.act}
             </p>
             <button
               type="button"
               onClick={() => onToggle(talk.id)}
               aria-pressed={watched}
               aria-label={watched ? `Mark unwatched: ${talk.title}` : `Strike down: ${talk.title}`}
-              className="font-mono text-[10px] tracking-[0.2em] text-parch-faint hover:text-ember transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ember focus-visible:ring-offset-2 focus-visible:ring-offset-void"
+              className={`font-mono text-[10px] tracking-[0.22em] px-3 py-1.5 border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ember focus-visible:ring-offset-2 focus-visible:ring-offset-void ${
+                watched
+                  ? "border-ember text-ember"
+                  : "border-[var(--hairline)] text-parch-faint hover:border-ember hover:text-ember"
+              }`}
             >
-              {watched ? "[ STRUCK DOWN ]" : "[ MARK SLAIN ]"}
+              {watched ? "STRUCK DOWN" : "MARK SLAIN"}
             </button>
           </header>
 
-          {/* MAIN — illuminated glyph + boss name + talk title */}
-          <div className="grid grid-cols-[auto_1fr] gap-x-6 sm:gap-x-10 items-start">
-            {/* Illuminated capital — Greek glyph, ember-on-void, on a faint halo */}
+          {/* MAIN — glyph + name. Tighter, less visual stacking. */}
+          <div className="grid grid-cols-[auto_1fr] gap-x-5 sm:gap-x-8 items-start">
+            {/* Illuminated capital — smaller, no redundant sub-tag (the giant Φ already says boss). */}
             <div className="relative shrink-0">
               <span
                 aria-hidden
-                className="block font-serif text-[110px] sm:text-[150px] leading-none text-ember"
+                className="block font-serif text-[80px] sm:text-[110px] leading-none text-ember"
                 style={{
                   textShadow: "0 0 28px rgba(201,169,110,0.18), 0 0 60px rgba(201,169,110,0.08)",
                 }}
               >
                 {TIER_GLYPH.boss}
               </span>
-              {/* Sub-tag under glyph */}
-              <p className="mt-2 font-mono text-[9px] tracking-[0.25em] text-parch-faint text-center">
-                PHI · BOSS
-              </p>
             </div>
 
-            <div className="min-w-0 pt-2 sm:pt-4">
-              {/* Boss name — the chosen epithet */}
-              <h2 className="font-serif text-3xl sm:text-5xl leading-[1.05] text-parch">
-                <span className="italic">{boss.name}</span>
+            <div className="min-w-0 pt-1 sm:pt-3">
+              {/* Boss epithet — the in-world name */}
+              <h2 className="font-serif text-3xl sm:text-5xl leading-[1.05] text-parch italic">
+                {boss.name}
               </h2>
-              {/* Talk title — actual archive title, smaller, italic */}
-              <p className="mt-3 font-serif italic text-base sm:text-lg text-parch-dim leading-snug">
-                <span className="text-parch-faint">— </span>{talk.title}
-              </p>
+              {/* Talk title — distinct treatment: mono-cap micro-label + serif body, no em-dash prefix */}
+              <div className="mt-4">
+                <p className="font-mono text-[10px] tracking-[0.25em] text-parch-faint mb-1">
+                  TALK
+                </p>
+                <p className="font-serif text-base sm:text-lg text-parch-dim leading-snug">
+                  {talk.title}
+                </p>
+              </div>
 
-              {/* Speaker + brand + edition */}
-              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[10px] tracking-[0.18em] text-parch-faint">
-                {talk.source === "devcon" ? (
-                  <span>DEVCON {talk.ed}</span>
-                ) : (
-                  <span>{talk.event?.toUpperCase()}</span>
-                )}
-                {talk.speakers.length > 0 && (
-                  <span className="text-parch-ghost">·  {talk.speakers.join(" · ")}</span>
-                )}
-                {talk.brand && (
-                  <span className="inline-flex items-center gap-1.5">
-                    <BrandLogo slug={talk.brand} size={12} /> <span>·</span>
+              {/* Provenance — event on one line, speakers on next, transcript flag inline */}
+              <div className="mt-4 space-y-1 font-mono text-[10px] tracking-[0.18em]">
+                <p className="text-parch-faint flex items-baseline gap-2 flex-wrap">
+                  <span>
+                    {talk.source === "devcon" ? `DEVCON ${talk.ed}` : (talk.event?.toUpperCase() || "")}
                   </span>
+                  {talk.brand && (
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="text-parch-ghost">·</span>
+                      <BrandLogo slug={talk.brand} size={12} />
+                    </span>
+                  )}
+                  {talk.hasTranscript && (
+                    <>
+                      <span className="text-parch-ghost">·</span>
+                      <span className="text-parch-ghost">⌜TR⌝</span>
+                    </>
+                  )}
+                </p>
+                {talk.speakers.length > 0 && (
+                  <p className="text-parch-ghost">
+                    {talk.speakers.join(" · ")}
+                  </p>
                 )}
-                {talk.hasTranscript && <span className="text-parch-ghost">⌜TRANSCRIPT⌝</span>}
               </div>
             </div>
           </div>
@@ -152,18 +166,14 @@ export default function BossCard({ talk, watched, onToggle }: Props) {
 
           {/* RUNE BLOCK — the ceremonial extraction */}
           <div className="mt-10 relative">
-            {/* Hairline separator with corner ornament */}
             <div className="flex items-center gap-3 mb-5">
-              <span className="text-ember font-serif text-xs leading-none" aria-hidden>✦</span>
               <div className="flex-1 h-px bg-gradient-to-r from-ember/40 via-[var(--hairline)] to-transparent" />
-              <p className="font-mono text-[9px] tracking-[0.3em] text-ember whitespace-nowrap">
-                WHAT YOU TAKE FROM THIS FIGHT
+              <p className="font-mono text-[10px] tracking-[0.3em] text-ember whitespace-nowrap">
+                THE RUNE TAKEN
               </p>
               <div className="flex-1 h-px bg-gradient-to-l from-ember/40 via-[var(--hairline)] to-transparent" />
-              <span className="text-ember font-serif text-xs leading-none" aria-hidden>✦</span>
             </div>
 
-            {/* The rune itself — extract the italicized noun, render it as monumental display */}
             <RuneCallout rune={boss.rune} />
           </div>
 
@@ -257,14 +267,11 @@ function RuneCallout({ rune }: { rune: string }) {
   const rest = m[2]?.trim();
   return (
     <div className="max-w-2xl">
-      <p className="font-mono text-[11px] tracking-[0.2em] text-parch-faint mb-2">
-        the rune of
-      </p>
-      <p className="font-serif italic text-5xl sm:text-7xl leading-[1.0] text-ember mb-4">
+      <p className="font-serif italic text-5xl sm:text-7xl leading-[1.0] text-ember mb-3">
         {noun}
       </p>
       {rest && (
-        <p className="font-serif text-[14px] leading-relaxed text-parch-dim italic">
+        <p className="font-serif text-[14px] sm:text-[15px] leading-relaxed text-parch-dim italic">
           {rest}
         </p>
       )}

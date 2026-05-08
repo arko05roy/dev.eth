@@ -10,21 +10,28 @@ interface Props {
   talk: Talk;
   watched: boolean;
   onToggle: (id: string) => void;
+  /** When true, render bosses as a normal row (no full BossCard ceremony).
+      Used in cross-cutting surfaces like the Wilds, where the boss is appearing
+      as a side reference, not in its canonical thread. */
+  compact?: boolean;
 }
 
 function speakerSlug(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-function Row({ talk, watched, onToggle }: Props) {
+function Row({ talk, watched, onToggle, compact = false }: Props) {
   const isBoss = talk.tier === "boss";
   const boss = isBoss ? BOSS_PROSE[talk.id] : undefined;
   const [expanded, setExpanded] = useState(false);
   const hasMore = !!talk.desc || !!talk.prologue;
   const related = isBoss ? RELATED[talk.id] : undefined;
 
-  // Bosses with hand-written prose render through the illuminated BossCard
-  if (isBoss && boss) {
+  // Bosses with hand-written prose render through the illuminated BossCard —
+  // EXCEPT when the row is being shown in compact mode (cross-paradigm Wilds, etc.),
+  // where the full ceremony would be misleading. In compact mode bosses are still
+  // marked with the Φ glyph but render as a normal row.
+  if (isBoss && boss && !compact) {
     return <BossCard talk={talk} watched={watched} onToggle={onToggle} />;
   }
 

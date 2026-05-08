@@ -1,5 +1,7 @@
-import Path from "@/components/Path";
+import PathHub from "@/components/PathHub";
+
+export const metadata = { title: "The Tarnished Path · dev.eth" };
 
 export default function PathPage() {
-  return <Path />;
+  return <PathHub />;
 }
