@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0e0c0a;
+  --fg: #e6dcc6;             /* brighter parchment for body */
+  --fg-dim: #c0b59e;         /* lifted from #a89c87 — passes AA on void */
+  --fg-faint: #8e8474;       /* lifted from #7a7160 */
+  --fg-ghost: #5a5446;       /* lifted from #4a4438 */
+  --ember: #d4b97c;          /* slightly brighter */
+  --ember-deep: #c9a96e;     /* original ember kept for accents */
+  --hairline: #2a2520;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--ember);
+  color: var(--bg);
+}
+
+/* subtle parchment grain — pure CSS, no images */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    radial-gradient(ellipse at top, rgba(201, 169, 110, 0.04), transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(0,0,0,0.4), transparent 60%);
+  mix-blend-mode: screen;
+}
+
+/* Atmospheric reduce-motion default */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* hairline class */
+.hairline { border-color: var(--hairline); }
+
+/* fade-up utility (used sparingly) */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  animation: fade-up 380ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* scrollbar — narrow, dim */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--fg-ghost); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--fg-faint); }
+
+/* prose shaping for boss entries */
+.boss-prose p {
+  line-height: 1.62;
+  color: var(--fg);
+}
+
+/* readable-prose: for explanatory text. Sans, brighter, never italic at small sizes. */
+.prose-read {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--fg-dim);
+  letter-spacing: 0.005em;
+}
+.prose-read-bright {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--fg);
+  letter-spacing: 0.005em;
+}
+
+/* offset for sticky header anchor scrolling — accounts for 48px nav + 56px filter bar */
+.scroll-anchor { scroll-margin-top: 120px; }
